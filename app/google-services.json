@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "73561395390",
+    "firebase_url": "https://shopcom-54585.firebaseio.com",
+    "project_id": "shopcom-54585",
+    "storage_bucket": "shopcom-54585.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73561395390:android:868d091b19b50831d04eef",
+        "android_client_info": {
+          "package_name": "com.mahmoudkhalil.shopcom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73561395390-apt076c7lj7tiqb0omcvcjancnopvhlu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mahmoudkhalil.shopcom",
+            "certificate_hash": "660014f2e9cb5c58048265fc521e4fed6cdb7cc4"
+          }
+        },
+        {
+          "client_id": "73561395390-nnp4qaukf89n8rkeht6iltfr7hl82j27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRaAvAM_qdCLZDhCiQVxi5hADQBH2-4s0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73561395390-nnp4qaukf89n8rkeht6iltfr7hl82j27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

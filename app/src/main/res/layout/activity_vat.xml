@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.VatActivity"
+    android:padding="@dimen/_16sdp">
+
+    <TextView
+        android:id="@+id/VAT_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_added_tax"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16ssp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <TextView
+        android:id="@+id/VAT_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        android:layout_below="@id/VAT_text"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/vat_text1"/>
+
+    <TextView
+        android:id="@+id/VAT_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        android:layout_below="@id/VAT_text1"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/vat_text2"/>
+
+    <TextView
+        android:id="@+id/VAT_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        android:layout_below="@id/VAT_text2"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/vat_text3"/>
+
+</RelativeLayout>
