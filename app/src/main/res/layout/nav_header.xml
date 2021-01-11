@@ -9,12 +9,15 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="@dimen/_60sdp"
-        android:src="@drawable/app_logo"
-        app:civ_border_color="@color/hover_color"
-        app:civ_border_width="2dp"/>
+    <TextView
+        android:id="@+id/profile_text"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:textColor="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:textSize="@dimen/_30ssp"
+        android:textStyle="bold"
+        android:background="@drawable/profile_text_background"/>
 
     <TextView
         android:id="@+id/full_name"
@@ -34,6 +37,7 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="@dimen/_12sdp"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:focusable="true" />
 
 </LinearLayout>

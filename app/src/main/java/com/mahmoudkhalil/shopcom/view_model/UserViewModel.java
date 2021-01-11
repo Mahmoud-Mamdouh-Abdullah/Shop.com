@@ -10,7 +10,6 @@ public class UserViewModel extends ViewModel implements UserRepository.onRegiste
     private UserRepository userRepository = new UserRepository(this,this);
     private UserRepository.onRegisterListener mOnRegisterListener;
     private UserRepository.onLoginListener mOnLoginListener;
-    User user;
 
     public UserViewModel() {
     }
@@ -24,16 +23,16 @@ public class UserViewModel extends ViewModel implements UserRepository.onRegiste
         userRepository.login(phone, password);
     }
 
+    public void user_exist(String phone) {
+        userRepository.user_exist(phone);
+    }
+
     public void setOnRegisterListener(UserRepository.onRegisterListener mOnRegisterListener) {
         this.mOnRegisterListener = mOnRegisterListener;
     }
 
     public void setOnLoginListener(UserRepository.onLoginListener mOnLoginListener) {
         this.mOnLoginListener = mOnLoginListener;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     @Override

@@ -55,5 +55,10 @@
     <string name="the_cart_is_empty">The Cart is Empty</string>
     <string name="the_favourite_list_is_empty">The Favourite list is empty</string>
     <string name="you_did_not_order_until_now">You didn\'t order until now</string>
+    <string name="send_verification_code">Send Verification Code</string>
+    <string name="the_6_digit_code">The 6 digit code</string>
+    <string name="verifiy_code">Verifiy Code</string>
+    <string name="change_password">Change Password</string>
+    <string name="search_by_voice">Search by Voice</string>
 
 </resources>

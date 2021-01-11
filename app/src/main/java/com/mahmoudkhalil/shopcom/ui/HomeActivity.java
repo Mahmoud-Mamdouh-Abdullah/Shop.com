@@ -25,7 +25,7 @@ import com.mahmoudkhalil.shopcom.models.User;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActivityHomeBinding binding;
-    private TextView name_tv, email_tv;
+    private TextView name_tv, email_tv, profile_tv;
     private Gson gson;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -38,12 +38,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         editor = sharedPreferences.edit();
         name_tv = (TextView) binding.navView.getHeaderView(0).findViewById(R.id.full_name);
         email_tv = (TextView) binding.navView.getHeaderView(0).findViewById(R.id.email);
+        profile_tv = (TextView) binding.navView.getHeaderView(0).findViewById(R.id.profile_text);
         gson = new Gson();
         String login_user = sharedPreferences.getString("login_user", "null");
         if(login_user != null) {
             user = gson.fromJson(login_user,User.class);
             name_tv.setText(user.getFullName());
             email_tv.setText(user.getEmail());
+            profile_tv.setText(get2FromName(user.getFullName()));
         }
         setSupportActionBar(binding.toolbar);
 
@@ -125,5 +127,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private String get2FromName(String name) {
+        String [] nameWords = name.split(" ");
+        return nameWords[0].charAt(0) + String.valueOf(nameWords[nameWords.length - 1].charAt(0));
     }
 }

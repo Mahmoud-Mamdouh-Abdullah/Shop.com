@@ -1,7 +1,10 @@
 package com.mahmoudkhalil.shopcom.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -10,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.repo.UserRepository;
@@ -24,10 +28,29 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private Gson gson;
     private Boolean remember;
+    private ConnectivityManager connectivityManager;
+    private NetworkInfo networkInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connectivityManager.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()) {
+        } else {
+            binding.signIn.setEnabled(false);
+            binding.googleSign.setEnabled(false);
+            binding.signUp.setEnabled(false);
+            binding.forgetPassword.setEnabled(false);
+            View parentView = findViewById(android.R.id.content);
+            Snackbar.make(parentView, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Exit", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    }).setActionTextColor(getResources().getColor(R.color.red)).show();
+        }
         gson = new Gson();
         sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -77,6 +100,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+            }
+        });
+
+        binding.forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ForgetPasswordActivity.class));
+                finish();
             }
         });
     }

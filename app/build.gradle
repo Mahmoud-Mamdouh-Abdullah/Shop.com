@@ -64,6 +64,9 @@ dependencies {
     //Realtime Database
     implementation 'com.google.firebase:firebase-database'
 
+    //Authentication
+    implementation 'com.google.firebase:firebase-auth'
+
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
@@ -75,5 +78,4 @@ dependencies {
 
     //google-location
     implementation 'com.google.android.gms:play-services-location:17.1.0'
-
 }

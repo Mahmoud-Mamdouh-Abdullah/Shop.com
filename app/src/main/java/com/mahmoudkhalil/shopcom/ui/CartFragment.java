@@ -1,7 +1,6 @@
 package com.mahmoudkhalil.shopcom.ui;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +25,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.mahmoudkhalil.shopcom.R;
@@ -61,7 +53,7 @@ import java.util.Objects;
 public class CartFragment extends Fragment {
 
     private Button calc_total, confirm_order;
-    private TextView total, empty;
+    private TextView total;
     private RelativeLayout relativeLayout;
     private RecyclerView cart_recycler;
     private ProductViewModel productViewModel;
@@ -88,7 +80,6 @@ public class CartFragment extends Fragment {
         calc_total = view.findViewById(R.id.calculate_total);
         confirm_order = view.findViewById(R.id.confirm_order);
         total = view.findViewById(R.id.sub_total);
-        empty = view.findViewById(R.id.empty_text);
         relativeLayout = view.findViewById(R.id.relative);
         sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("login", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -178,6 +169,8 @@ public class CartFragment extends Fragment {
                             Location location = task.getResult();
                             if(location != null) {
                                 try {
+                                    progressDialog.show();
+                                    progressDialog.setMessage("We take your Current Location");
                                     Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
                                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                                     String address = addresses.get(0).getSubAdminArea() +
@@ -242,7 +235,6 @@ public class CartFragment extends Fragment {
                     ActivityCompat.requestPermissions(getActivity(),
                             new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 44);
                 }
-
             }
         });
         return view;

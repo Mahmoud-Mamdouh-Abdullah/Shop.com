@@ -23,7 +23,6 @@ public class UserRepository {
         this.mOnLoginListener = mOnLoginListener;
     }
 
-
     public void register(User user) {
         mReference.child(user.getPhone()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -59,6 +58,25 @@ public class UserRepository {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+
+    public void user_exist(final String phone) {
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(phone).exists()) {
+                    User user = snapshot.child(phone).getValue(User.class);
+                    mOnLoginListener.onLoginSuccess(user);
+                } else {
+                    mOnLoginListener.onLoginFailure();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                mOnLoginListener.onLoginFailure();
             }
         });
     }
