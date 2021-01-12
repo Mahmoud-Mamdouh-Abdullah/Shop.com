@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-    </data>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.MainActivity"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="@dimen/_16sdp">
 
@@ -18,134 +16,132 @@
             android:id="@+id/progress_bar"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:visibility="invisible"/>
+            android:layout_centerVertical="true"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/app_logo"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="@dimen/_180sdp"
-            android:background="@drawable/app_logo"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_20sdp"
-            />
+            app:srcCompat="@drawable/app_logo"
+            tools:ignore="ContentDescription" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/user_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/app_logo"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/black"
-            >
+            app:boxStrokeColor="@color/black">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/phone_number"
-                android:textSize="@dimen/_12ssp"
                 android:inputType="phone"
-                android:maxLength="11"/>
+                android:maxLength="11"
+                android:textSize="@dimen/_12ssp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/black"
             android:layout_marginTop="@dimen/_16sdp"
-            app:passwordToggleEnabled="true"
-            >
+            app:boxStrokeColor="@color/black"
+            app:passwordToggleEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:textSize="@dimen/_12ssp"
                 android:inputType="textPassword"
-                />
+                android:textSize="@dimen/_12ssp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
             android:id="@+id/remember_me"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/remember_me"
-            android:textSize="@dimen/_12ssp"
             android:layout_below="@id/password"
             android:layout_alignParentStart="true"
-            />
+            android:text="@string/remember_me"
+            android:textSize="@dimen/_12ssp" />
+
         <TextView
             android:id="@+id/forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/forget_password"
-            android:textSize="@dimen/_12ssp"
             android:layout_below="@id/password"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/forget_password"
             android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_5sdp"/>
+            android:textSize="@dimen/_12ssp" />
 
         <Button
             android:id="@+id/signIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sign_in"
-            android:textSize="@dimen/_12ssp"
-            android:textColor="@color/white"
             android:layout_below="@id/remember_me"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/sign_in_ripple"
-            android:textAllCaps="false"/>
+            android:text="@string/sign_in"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp" />
 
         <TextView
             android:id="@+id/or_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/or"
-            android:textSize="@dimen/_12ssp"
             android:layout_below="@id/signIn"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_5sdp"/>
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/or"
+            android:textSize="@dimen/_12ssp" />
 
         <Button
             android:id="@+id/google_sign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sign_in_with_google"
             android:layout_below="@id/or_text"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/google_ripple"
-            android:drawableLeft="@drawable/google_icon_reshape"
-            android:textAllCaps="false"
-            />
+            android:drawableStart="@drawable/google_icon_reshape"
+            android:text="@string/sign_in_with_google"
+            android:textAllCaps="false" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@id/google_sign"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_16sdp">
+            android:layout_marginTop="@dimen/_16sdp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:text="@string/don_t_have_an_account"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginEnd="@dimen/_5sdp"/>
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_up"
-                android:textSize="@dimen/_12ssp"
                 android:textColor="@color/black"
-                android:textStyle="bold"/>
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </RelativeLayout>
-</layout>
+</ScrollView>

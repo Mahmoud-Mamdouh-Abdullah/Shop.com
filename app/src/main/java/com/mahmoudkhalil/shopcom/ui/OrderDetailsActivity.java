@@ -1,18 +1,19 @@
 package com.mahmoudkhalil.shopcom.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.adapters.ProductOrderAdapter;
-import com.mahmoudkhalil.shopcom.databinding.ActivityOrderDetailsBinding;
 import com.mahmoudkhalil.shopcom.models.Order;
 
 import java.text.ParseException;
@@ -20,37 +21,47 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class OrderDetailsActivity extends AppCompatActivity {
 
-    private ActivityOrderDetailsBinding binding;
+
+    @BindView(R.id.orderID)
+    TextView orderID;
+    @BindView(R.id.orders_recyclerView)
+    RecyclerView ordersRecyclerView;
+    @BindView(R.id.total)
+    TextView total;
+    @BindView(R.id.orderDate)
+    TextView orderDate;
+    @BindView(R.id.location_text)
+    TextView locationText;
+    @BindView(R.id.delivery_text)
+    TextView deliveryText;
     private Order mOrder;
     private Gson gson;
     private ProductOrderAdapter productOrderAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_order_details);
+        setContentView(R.layout.activity_order_details);
+        ButterKnife.bind(this);
         getSupportActionBar().setTitle("Order Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         gson = new Gson();
         productOrderAdapter = new ProductOrderAdapter();
         mOrder = gson.fromJson(getIntent().getStringExtra("orderObj"), Order.class);
         productOrderAdapter.setOrderList(mOrder.getProductsList());
-        binding.ordersRecyclerView.setAdapter(productOrderAdapter);
-        binding.orderID.setText(mOrder.getOrderID());
-        binding.orderDate.setText(mOrder.getOrderDate());
-        binding.total.setText(String.format("%sEGP", mOrder.getOrderTotal()));
-        binding.locationText.setText(mOrder.getUserAddress());
-        binding.deliveryText.setText(addToDate(mOrder.getOrderDate()));
+        ordersRecyclerView.setAdapter(productOrderAdapter);
+        orderID.setText(mOrder.getOrderID());
+        orderDate.setText(mOrder.getOrderDate());
+        total.setText(String.format("%sEGP", mOrder.getOrderTotal()));
+        locationText.setText(mOrder.getUserAddress());
+        deliveryText.setText(addToDate(mOrder.getOrderDate()));
 
-        binding.backHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(OrderDetailsActivity.this, HomeActivity.class));
-                finish();
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-            }
-        });
     }
 
     public String addToDate(String dateStr) {
@@ -71,7 +82,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
             case android.R.id.home:
                 startActivity(new Intent(OrderDetailsActivity.this, HomeActivity.class));
                 finish();
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -81,6 +92,13 @@ public class OrderDetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(OrderDetailsActivity.this, HomeActivity.class));
         finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @OnClick(R.id.backHome)
+    public void onViewClicked() {
+        startActivity(new Intent(OrderDetailsActivity.this, HomeActivity.class));
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

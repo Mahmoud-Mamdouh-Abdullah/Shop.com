@@ -1,13 +1,5 @@
 package com.mahmoudkhalil.shopcom.ui;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,20 +7,31 @@ import android.speech.RecognizerIntent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
-import com.mahmoudkhalil.shopcom.view_model.ProductViewModel;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.adapters.ProductAdapter;
-import com.mahmoudkhalil.shopcom.databinding.ActivityProductsBinding;
 import com.mahmoudkhalil.shopcom.models.Product;
+import com.mahmoudkhalil.shopcom.view_model.ProductViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ProductsActivity extends AppCompatActivity {
 
-    ActivityProductsBinding binding;
+    @BindView(R.id.products_recyclerView)
+    RecyclerView productsRecyclerView;
     private ProductAdapter productAdapter;
     private ArrayList<Product> myProductsList;
     private ProductViewModel productViewModel;
@@ -38,7 +41,8 @@ public class ProductsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_products);
+        setContentView(R.layout.activity_products);
+        ButterKnife.bind(this);
 
         productAdapter = new ProductAdapter();
         myProductsList = new ArrayList<>();
@@ -54,15 +58,15 @@ public class ProductsActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Product> productList) {
                 myProductsList.clear();
-                for(int i = 0; i < productList.size(); i ++) {
-                    if(productList.get(i).getCategory().equals(category_name))
+                for (int i = 0; i < productList.size(); i++) {
+                    if (productList.get(i).getCategory().equals(category_name))
                         myProductsList.add(productList.get(i));
                 }
                 productAdapter.setProductsList(myProductsList);
                 progressDialog.dismiss();
             }
         });
-        binding.productsRecyclerView.setAdapter(productAdapter);
+        productsRecyclerView.setAdapter(productAdapter);
 
         productAdapter.setOnItemClickListener(new ProductAdapter.onItemClickListener() {
             @Override
@@ -70,11 +74,11 @@ public class ProductsActivity extends AppCompatActivity {
                 Intent intent = new Intent(ProductsActivity.this, ShowProductActivity.class);
                 Gson gson = new Gson();
                 String productObj = gson.toJson(myProductsList.get(position));
-                intent.putExtra("productObj",productObj);
-                intent.putExtra("category_name",category_name);
+                intent.putExtra("productObj", productObj);
+                intent.putExtra("category_name", category_name);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -84,7 +88,7 @@ public class ProductsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.products_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView)  menuItem.getActionView();
+        SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Search");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -108,7 +112,7 @@ public class ProductsActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;
             case R.id.search_by_voice:
                 Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -122,7 +126,7 @@ public class ProductsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == RECOGNIZIER_RESULT && resultCode == RESULT_OK) {
+        if (requestCode == RECOGNIZIER_RESULT && resultCode == RESULT_OK) {
             ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             productAdapter.getFilter().filter(speech.get(0));
         }
@@ -134,6 +138,6 @@ public class ProductsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

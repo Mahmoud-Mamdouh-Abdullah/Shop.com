@@ -7,22 +7,45 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.mahmoudkhalil.shopcom.R;
+import com.mahmoudkhalil.shopcom.models.User;
 import com.mahmoudkhalil.shopcom.repo.UserRepository;
 import com.mahmoudkhalil.shopcom.view_model.UserViewModel;
-import com.mahmoudkhalil.shopcom.databinding.ActivityMainBinding;
-import com.mahmoudkhalil.shopcom.models.User;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.user_name)
+    TextInputLayout userName;
+    @BindView(R.id.password)
+    TextInputLayout password;
+    @BindView(R.id.remember_me)
+    CheckBox rememberMe;
+    @BindView(R.id.google_sign)
+    Button googleSign;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.forget_password)
+    TextView forgetPassword;
+    @BindView(R.id.signIn)
+    Button signIn;
+    @BindView(R.id.sign_up)
+    TextView signUp;
     private UserViewModel userViewModel;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -30,18 +53,20 @@ public class MainActivity extends AppCompatActivity {
     private Boolean remember;
     private ConnectivityManager connectivityManager;
     private NetworkInfo networkInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connectivityManager.getActiveNetworkInfo();
-        if(networkInfo != null && networkInfo.isConnected()) {
+        if (networkInfo != null && networkInfo.isConnected()) {
         } else {
-            binding.signIn.setEnabled(false);
-            binding.googleSign.setEnabled(false);
-            binding.signUp.setEnabled(false);
-            binding.forgetPassword.setEnabled(false);
+            signIn.setEnabled(false);
+            googleSign.setEnabled(false);
+            signUp.setEnabled(false);
+            forgetPassword.setEnabled(false);
             View parentView = findViewById(android.R.id.content);
             Snackbar.make(parentView, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Exit", new View.OnClickListener() {
@@ -52,63 +77,55 @@ public class MainActivity extends AppCompatActivity {
                     }).setActionTextColor(getResources().getColor(R.color.red)).show();
         }
         gson = new Gson();
-        sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        remember = sharedPreferences.getBoolean("remember_user",false);
-        if(remember){
-            binding.progressBar.setVisibility(View.VISIBLE);
+        remember = sharedPreferences.getBoolean("remember_user", false);
+        if (remember) {
+            progressBar.setVisibility(View.VISIBLE);
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
         }
-
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+    }
 
-        binding.signUp.setOnClickListener(new View.OnClickListener() {
+    @OnClick(R.id.forget_password)
+    public void onForgetPasswordClicked() {
+        startActivity(new Intent(MainActivity.this, ForgetPasswordActivity.class));
+        finish();
+    }
+
+    @OnClick(R.id.signIn)
+    public void onSignInClicked() {
+        String phone = userName.getEditText().getText().toString().trim();
+        String pass = password.getEditText().getText().toString().trim();
+        userViewModel.login(phone, pass);
+        userViewModel.setOnLoginListener(new UserRepository.onLoginListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SignUpActivity.class));
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            public void onLoginSuccess(User user) {
+                String login_user = gson.toJson(user);
+                editor.putString("login_user", login_user);
+                if (rememberMe.isChecked()) {
+                    editor.putBoolean("remember_user", true);
+                }
+                editor.apply();
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                MainActivity.this.finish();
+            }
+
+            @Override
+            public void onLoginFailure() {
+                Toast.makeText(MainActivity.this, "phone or password is incorrect", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        binding.signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String phone = binding.userName.getEditText().getText().toString().trim();
-                String pass = binding.password.getEditText().getText().toString().trim();
-                userViewModel.login(phone, pass);
-                userViewModel.setOnLoginListener(new UserRepository.onLoginListener() {
-                    @Override
-                    public void onLoginSuccess(User user) {
-                        String login_user = gson.toJson(user);
-                        editor.putString("login_user", login_user);
-                        if(binding.rememberMe.isChecked()){
-                            editor.putBoolean("remember_user",true);
-                        }
-                        editor.apply();
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-                        MainActivity.this.finish();
-                    }
-
-                    @Override
-                    public void onLoginFailure() {
-                        Toast.makeText(MainActivity.this, "phone or password is incorrect", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
-        });
-
-        binding.forgetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ForgetPasswordActivity.class));
-                finish();
-            }
-        });
+    @OnClick(R.id.sign_up)
+    public void onSignUpClicked() {
+        startActivity(new Intent(MainActivity.this, SignUpActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }
