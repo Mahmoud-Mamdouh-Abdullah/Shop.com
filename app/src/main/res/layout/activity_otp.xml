@@ -1,47 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/_16sdp"
+    android:padding="@dimen/_20sdp"
     tools:context=".ui.ForgetPasswordActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_50sdp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/otp_code"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/black">
+            android:layout_gravity="center"
+            android:fontFamily="@font/muli_black"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:text="@string/otp_code"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/dark_green"
+            android:textSize="@dimen/_50ssp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/the_6_digit_code"
-                android:inputType="phone"
-                android:maxLength="11"
-                android:textSize="@dimen/_12ssp" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/muli_black"
+            android:includeFontPadding="false"
+            android:text="@string/otp_verification"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/dark_green"
+            android:textSize="@dimen/_14ssp" />
+
+        <TextView
+            android:id="@+id/otp_desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:fontFamily="@font/muli"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/otp_description"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"/>
+
+        <com.chaos.view.PinView
+            android:id="@+id/pinViewCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:cursorVisible="true"
+            android:inputType="number"
+            app:cursorColor="@color/black"
+            app:itemCount="6"
+            app:itemHeight="@dimen/_30sdp"
+            app:itemWidth="@dimen/_30sdp"
+            app:lineColor="@color/dark_green"
+            android:itemBackground="@color/light_grey"
+            app:hideLineWhenFilled="true"
+            app:itemRadius="@dimen/_2sdp"
+            app:viewType="rectangle"
+            style="@style/PinWidget.PinView"/>
 
         <Button
             android:id="@+id/verifyOTP"
-            android:layout_width="@dimen/_200sdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:background="@drawable/sign_in_ripple"
-            android:text="@string/verifiy_code"
-            android:textAllCaps="false"
+            android:layout_marginTop="@dimen/_60sdp"
+            android:background="@drawable/verify_send_ripple"
+            android:text="@string/verify_code"
+            android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

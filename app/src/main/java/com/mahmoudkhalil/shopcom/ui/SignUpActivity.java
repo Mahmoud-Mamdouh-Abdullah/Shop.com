@@ -187,7 +187,7 @@ public class SignUpActivity extends AppCompatActivity {
         errorChecker();
         if (gender.isEmpty() || fullNameStr.isEmpty() || emailStr.isEmpty() || passwordStr.isEmpty() || rePass.isEmpty() || phoneStr.isEmpty()) {
             Toast.makeText(SignUpActivity.this, "complete your data", Toast.LENGTH_SHORT).show();
-        } else if (!rePass.equals(password)) {
+        } else if (!rePass.equals(passwordStr)) {
             confirmPassword.setError("password doesn't match!");
         } else if (!validateEmail(emailStr)) {
             email.setError("Invalid email");

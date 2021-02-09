@@ -55,10 +55,15 @@
     <string name="the_cart_is_empty">The Cart is Empty</string>
     <string name="the_favourite_list_is_empty">The Favourite list is empty</string>
     <string name="you_did_not_order_until_now">You didn\'t order until now</string>
-    <string name="send_verification_code">Send Verification Code</string>
+    <string name="send_verification_code">Send</string>
     <string name="the_6_digit_code">The 6 digit code</string>
-    <string name="verifiy_code">Verifiy Code</string>
+    <string name="verify_code">Verify</string>
     <string name="change_password">Change Password</string>
     <string name="search_by_voice">Search by Voice</string>
+    <string name="verify_your_number">Verify Your Number</string>
+    <string name="verify_message"><![CDATA[Please enter your Country &\n your Phone Number]]></string>
+    <string name="otp_code">Co\nde</string>
+    <string name="otp_verification">Verification</string>
+    <string name="otp_description">Enter your 6 digit code that you received on\n </string>
 
 </resources>
