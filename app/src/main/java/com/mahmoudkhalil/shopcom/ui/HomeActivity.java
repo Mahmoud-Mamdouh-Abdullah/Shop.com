@@ -133,6 +133,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 editor.apply();
                 startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finish();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

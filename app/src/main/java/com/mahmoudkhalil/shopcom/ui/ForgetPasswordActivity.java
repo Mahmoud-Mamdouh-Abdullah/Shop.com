@@ -3,7 +3,6 @@ package com.mahmoudkhalil.shopcom.ui;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,11 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -55,9 +50,23 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ForgetPasswordActivity.this, MainActivity.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
+    }
+
+
+    @OnClick(R.id.back_imageButton)
+    public void onBackImageButtonClicked() {
+        startActivity(new Intent(ForgetPasswordActivity.this, MainActivity.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        finish();
+    }
 
     @OnClick(R.id.sendOTP)
-    public void onViewClicked() {
+    public void onSendOTPClicked() {
         progressDialog = new ProgressDialog(ForgetPasswordActivity.this);
         progressDialog.show();
         progressDialog.setMessage("Waiting the verification code ...");

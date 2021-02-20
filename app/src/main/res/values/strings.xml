@@ -65,5 +65,7 @@
     <string name="otp_code">Co\nde</string>
     <string name="otp_verification">Verification</string>
     <string name="otp_description">Enter your 6 digit code that you received on\n </string>
+    <string name="new_credentials">NEW \n CREDENTIALS</string>
+    <string name="set_pass_msg">Your Identity has been verified! \n Set your new password</string>
 
 </resources>
