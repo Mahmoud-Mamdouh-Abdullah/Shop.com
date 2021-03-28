@@ -44,12 +44,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        name_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.full_name);
-        email_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.email);
-        profile_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.profile_text);
-        gson = new Gson();
+
+        String fromWhere = getIntent().getStringExtra("from");
+        init();
         String login_user = sharedPreferences.getString("login_user", "null");
         if (login_user != null) {
             user = gson.fromJson(login_user, User.class);
@@ -67,7 +64,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
-        if (savedInstanceState == null) {
+        if(fromWhere.equals("order")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new OrdersFragment()).commit();
+            navView.setCheckedItem(R.id.nav_orders);
+            getSupportActionBar().setTitle("My Orders");
+        }
+        else if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
             navView.setCheckedItem(R.id.nav_home);
@@ -142,5 +145,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private String get2FromName(String name) {
         String[] nameWords = name.split(" ");
         return nameWords[0].charAt(0) + String.valueOf(nameWords[nameWords.length - 1].charAt(0));
+    }
+
+    private void init(){
+        sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        name_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.full_name);
+        email_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.email);
+        profile_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.profile_text);
+        gson = new Gson();
     }
 }

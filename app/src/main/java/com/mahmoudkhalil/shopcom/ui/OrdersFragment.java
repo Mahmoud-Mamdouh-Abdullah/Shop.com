@@ -1,5 +1,6 @@
 package com.mahmoudkhalil.shopcom.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,10 +39,15 @@ public class OrdersFragment extends Fragment {
     private User login_user;
     private String userString;
     private OrderAdapter orderAdapter;
+    private ProgressDialog progressDialog;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.orders_fragment, container, false);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.show();
+        progressDialog.setMessage("Loading ...");
         sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
         recyclerView = view.findViewById(R.id.order_recyclerView);
         empty = view.findViewById(R.id.empty_text);
@@ -49,7 +55,7 @@ public class OrdersFragment extends Fragment {
         orderAdapter = new OrderAdapter();
         gson = new Gson();
         userString = sharedPreferences.getString("login_user", null);
-        if(userString != null){
+        if(userString != null) {
             login_user = gson.fromJson(userString, User.class);
         }
         orderViewModel = new ViewModelProvider(getActivity()).get(OrderViewModel.class);
@@ -64,6 +70,7 @@ public class OrdersFragment extends Fragment {
                     }
                 }
                 orderAdapter.setOrderList(orderList);
+                progressDialog.dismiss();
             }
         });
         recyclerView.setAdapter(orderAdapter);

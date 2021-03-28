@@ -85,6 +85,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                             .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                                 @Override
                                 public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+
                                 }
 
                                 @Override

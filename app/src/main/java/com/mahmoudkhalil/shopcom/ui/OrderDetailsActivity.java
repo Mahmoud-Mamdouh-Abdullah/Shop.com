@@ -15,10 +15,12 @@ import com.google.gson.Gson;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.adapters.ProductOrderAdapter;
 import com.mahmoudkhalil.shopcom.models.Order;
+import com.mahmoudkhalil.shopcom.models.Product;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -64,6 +66,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param dateStr : the date string to add 3 days to it
+     * @return the date string after adding 3 days to the original date
+     */
     public String addToDate(String dateStr) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
@@ -78,26 +85,27 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                startActivity(new Intent(OrderDetailsActivity.this, HomeActivity.class));
-                finish();
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            toHomeActivity();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(OrderDetailsActivity.this, HomeActivity.class));
-        finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        toHomeActivity();
     }
 
     @OnClick(R.id.backHome)
     public void onViewClicked() {
-        startActivity(new Intent(OrderDetailsActivity.this, HomeActivity.class));
+        toHomeActivity();
+    }
+
+    private void toHomeActivity() {
+        Intent intent = new Intent(OrderDetailsActivity.this, HomeActivity.class);
+        intent.putExtra("from", "order");
+        startActivity(intent);
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }

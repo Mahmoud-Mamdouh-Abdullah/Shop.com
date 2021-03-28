@@ -49,7 +49,7 @@ public class OtpActivity extends AppCompatActivity {
     private void sendToChangePassword() {
         Intent intent = new Intent(OtpActivity.this, ChangePasswordActivity.class);
         startActivity(intent);
-        finish();
+        OtpActivity.this.finish();
     }
 
     @OnClick(R.id.verifyOTP)

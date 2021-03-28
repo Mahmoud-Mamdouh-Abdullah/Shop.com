@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.mahmoudkhalil.shopcom"
@@ -90,4 +90,8 @@ dependencies {
 
     //OTP PIN View Design
     implementation 'com.chaos.view:pinview:1.4.3'
+
+    //send mail without
+    implementation 'com.sun.mail:android-mail:1.6.0'
+    implementation 'com.sun.mail:android-activation:1.6.0'
 }

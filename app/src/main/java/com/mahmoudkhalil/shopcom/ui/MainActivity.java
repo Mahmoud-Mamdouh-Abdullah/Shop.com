@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
+import com.mahmoudkhalil.shopcom.Logic;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.models.User;
 import com.mahmoudkhalil.shopcom.repo.UserRepository;
@@ -52,42 +53,24 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Gson gson;
-    private Boolean remember;
-    private ConnectivityManager connectivityManager;
-    private NetworkInfo networkInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-        } else {
-            signIn.setEnabled(false);
-            googleSign.setEnabled(false);
-            signUp.setEnabled(false);
-            forgetPassword.setEnabled(false);
-            View parentView = findViewById(android.R.id.content);
-            Snackbar.make(parentView, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Exit", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            finish();
-                        }
-                    }).setActionTextColor(getResources().getColor(R.color.red)).show();
+
+        if (!Logic.isNetworkConnected(this)) {
+            disableViews();
+            showSnackbar();
         }
         gson = new Gson();
         sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        remember = sharedPreferences.getBoolean("remember_user", false);
+        Boolean remember = sharedPreferences.getBoolean("remember_user", false);
         if (remember) {
             progressBar.setVisibility(View.VISIBLE);
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            finish();
+            toHomeActivity();
         }
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
@@ -112,10 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putBoolean("remember_user", true);
                 }
                 editor.apply();
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                MainActivity.this.finish();
+                toHomeActivity();
             }
 
             @Override
@@ -131,6 +111,30 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+    private void disableViews() {
+        signIn.setEnabled(false);
+        googleSign.setEnabled(false);
+        signUp.setEnabled(false);
+        forgetPassword.setEnabled(false);
+    }
+    private void showSnackbar() {
+        View parentView = findViewById(android.R.id.content);
+        Snackbar.make(parentView, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Exit", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }).setActionTextColor(getResources().getColor(R.color.red)).show();
+    }
+
+    private void toHomeActivity(){
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        intent.putExtra("from", "main");
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        finish();
+    }
     @Override
     public void onBackPressed() {
         final Dialog dialog = new Dialog(MainActivity.this);

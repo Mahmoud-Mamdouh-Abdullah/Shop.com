@@ -51,7 +51,7 @@
     <string name="order_date">Order Date</string>
     <string name="show_your_delivery_location">Show your delivery location</string>
     <string name="grand_total">Grand Total</string>
-    <string name="back_to_home">Back to home</string>
+    <string name="back_to_home">Back to My Orders</string>
     <string name="the_cart_is_empty">The Cart is Empty</string>
     <string name="the_favourite_list_is_empty">The Favourite list is empty</string>
     <string name="you_did_not_order_until_now">You didn\'t order until now</string>

@@ -30,6 +30,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
+import com.mahmoudkhalil.shopcom.Logic;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.adapters.CartAdapter;
 import com.mahmoudkhalil.shopcom.models.Order;
@@ -205,6 +206,17 @@ public class CartFragment extends Fragment {
                                     orderViewModel.setOnOrderListener(new OrderRepository.onOrderListener() {
                                         @Override
                                         public void onOrderSuccess(Order order) {
+                                            Thread thread = new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        Logic.sendEmail(order, login_user.getEmail(), getActivity());
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                            thread.start();
                                             String orderString = gson.toJson(order);
                                             Intent intent = new Intent(getActivity(), OrderDetailsActivity.class);
                                             intent.putExtra("orderObj", orderString);

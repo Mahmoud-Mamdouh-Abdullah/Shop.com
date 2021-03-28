@@ -109,10 +109,7 @@ public class ProductsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                toHomeActivity();
                 return true;
             case R.id.search_by_voice:
                 Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -135,7 +132,12 @@ public class ProductsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        toHomeActivity();
+    }
+
+    private void toHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("from", "product");
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

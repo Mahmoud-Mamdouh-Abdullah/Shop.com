@@ -34,6 +34,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         holder.orderID.setText(orderList.get(position).getOrderID());
         holder.orderDate.setText(orderList.get(position).getOrderDate());
+        holder.orderTotal.setText(orderList.get(position).getOrderTotal());
     }
 
     @Override
@@ -49,12 +50,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         mListener = listener;
     }
 
-    public class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView orderID, orderDate;
+    public static class OrderViewHolder extends RecyclerView.ViewHolder {
+        TextView orderID, orderDate, orderTotal;
         public OrderViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
             orderID = itemView.findViewById(R.id.orderID);
             orderDate = itemView.findViewById(R.id.orderDate);
+            orderTotal = itemView.findViewById(R.id.total);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
