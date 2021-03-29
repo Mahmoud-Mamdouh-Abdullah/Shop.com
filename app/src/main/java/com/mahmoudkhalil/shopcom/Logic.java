@@ -33,7 +33,7 @@ public class Logic {
 
     public static void sendEmail(Order order, String recipient, Context context) {
         String email = "houda10111997@gmail.com";
-        String password = "#M2016170403m#";
+        String password = "";
         String mailBody = prepareMsg(order);
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", "true");

@@ -169,75 +169,10 @@ public class CartFragment extends Fragment {
                         public void onComplete(@NonNull Task<Location> task) {
                             Location location = task.getResult();
                             if(location != null) {
-                                try {
-                                    progressDialog.show();
-                                    progressDialog.setMessage("We take your Current Location");
-                                    Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-                                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                    String address = addresses.get(0).getSubAdminArea() +
-                                            "," + addresses.get(0).getLocality() + "," + addresses.get(0).getAdminArea();
-                                    List<Product> confirmedList = new ArrayList<>(cartList);
-                                    List<Product> orderList = new ArrayList<>(cartList);
-                                    List<Integer> confirmQtyList = new ArrayList<>();
-                                    for (int i = 0; i < cartList.size(); i++) {
-                                        int confirmQty = Integer.parseInt(cartList.get(i).getStock()) - cartAdapter.qtyList.get(i);
-                                        confirmedList.get(i).setStock(String.valueOf(confirmQty));
-                                        confirmQtyList.add(i, confirmQty);
-                                    }
-                                    orderViewModel.confirmOrder(confirmedList);
-                                    orderViewModel.setOnConfirmListener(new OrderRepository.onConfirmListener() {
-                                        @Override
-                                        public void onConfirmSuccess() {
-
-                                        }
-
-                                        @Override
-                                        public void onConfirmFailed() {
-                                            Toast.makeText(getActivity(), "Order Confirmed Failed", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    for (int i = 0; i < cartList.size(); i++) {
-                                        orderList.get(i).setStock(String.valueOf(cartAdapter.qtyList.get(i)));
-                                    }
-                                    orderViewModel.addOrder(String.valueOf(sub_total),
-                                            login_user.getPhone(),
-                                            getDate(),
-                                            address, orderList);
-                                    orderViewModel.setOnOrderListener(new OrderRepository.onOrderListener() {
-                                        @Override
-                                        public void onOrderSuccess(Order order) {
-                                            Thread thread = new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        Logic.sendEmail(order, login_user.getEmail(), getActivity());
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            });
-                                            thread.start();
-                                            String orderString = gson.toJson(order);
-                                            Intent intent = new Intent(getActivity(), OrderDetailsActivity.class);
-                                            intent.putExtra("orderObj", orderString);
-                                            startActivity(intent);
-                                            getActivity().finish();
-                                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                        }
-
-                                        @Override
-                                        public void onOrderFailed(Exception e) {
-                                            Toast.makeText(getActivity(), "Something wrong happened", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    login_user.cartList.clear();
-                                    userString = gson.toJson(login_user);
-                                    editor.putString("login_user", userString);
-                                    editor.apply();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                progressDialog.show();
+                                progressDialog.setMessage("We take your Current Location");
+                                String address = getAddress(location.getLatitude(), location.getLongitude());
+                                onConfirmOrderProcess(address);
                             }
                         }
                     });
@@ -258,4 +193,75 @@ public class CartFragment extends Fragment {
         return dateFormat.format(date);
     }
 
+    private void onConfirmOrderProcess(String address) {
+        List<Product> confirmedList = new ArrayList<>(cartList);
+        List<Product> orderList = new ArrayList<>(cartList);
+        List<Integer> confirmQtyList = new ArrayList<>();
+        for (int i = 0; i < cartList.size(); i++) {
+            int confirmQty = Integer.parseInt(cartList.get(i).getStock()) - cartAdapter.qtyList.get(i);
+            confirmedList.get(i).setStock(String.valueOf(confirmQty));
+            confirmQtyList.add(i, confirmQty);
+        }
+        orderViewModel.confirmOrder(confirmedList);
+        orderViewModel.setOnConfirmListener(new OrderRepository.onConfirmListener() {
+            @Override
+            public void onConfirmSuccess() {
+            }
+
+            @Override
+            public void onConfirmFailed() {
+                Toast.makeText(getActivity(), "Order Confirmed Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        for (int i = 0; i < cartList.size(); i++) {
+            orderList.get(i).setStock(String.valueOf(cartAdapter.qtyList.get(i)));
+        }
+        orderViewModel.addOrder(String.valueOf(sub_total),
+                login_user.getPhone(),
+                getDate(),
+                address, orderList);
+        orderViewModel.setOnOrderListener(new OrderRepository.onOrderListener() {
+            @Override
+            public void onOrderSuccess(Order order) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Logic.sendEmail(order, login_user.getEmail(), getActivity());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
+                String orderString = gson.toJson(order);
+                Intent intent = new Intent(getActivity(), OrderDetailsActivity.class);
+                intent.putExtra("orderObj", orderString);
+                startActivity(intent);
+                getActivity().finish();
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+
+            @Override
+            public void onOrderFailed(Exception e) {
+                Toast.makeText(getActivity(), "Something wrong happened", Toast.LENGTH_SHORT).show();
+            }
+        });
+        login_user.cartList.clear();
+        userString = gson.toJson(login_user);
+        editor.putString("login_user", userString);
+        editor.apply();
+    }
+
+    private String getAddress(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return addresses.get(0).getSubAdminArea() +
+                "," + addresses.get(0).getLocality() + "," + addresses.get(0).getAdminArea();
+    }
 }

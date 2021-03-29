@@ -79,7 +79,7 @@ dependencies {
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
 
     //google-location
-    implementation 'com.google.android.gms:play-services-location:17.1.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     //butter knife
     implementation 'com.jakewharton:butterknife:10.2.3'
