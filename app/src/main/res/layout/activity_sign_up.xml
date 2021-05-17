@@ -6,29 +6,29 @@
     android:layout_height="wrap_content"
     tools:context=".ui.SignUpActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="@dimen/_16sdp">
+        android:padding="@dimen/_16sdp"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_40sdp">
 
         <TextView
             android:id="@+id/sign_up_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_20sdp"
             android:text="@string/sign_up"
             android:textColor="@color/black"
-            android:textSize="@dimen/_30sdp" />
+            android:textSize="@dimen/_30sdp"
+            android:fontFamily="@font/muli"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/full_name"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sign_up_message"
             android:layout_marginTop="@dimen/_20sdp"
             app:boxStrokeColor="@color/black">
 
@@ -45,7 +45,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/full_name"
             android:layout_marginTop="@dimen/_10sdp"
             app:boxStrokeColor="@color/black">
 
@@ -63,7 +62,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/email"
             android:layout_marginTop="@dimen/_10sdp"
             app:boxStrokeColor="@color/black"
             app:passwordToggleEnabled="true">
@@ -77,29 +75,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/confirm_password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/password"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:boxStrokeColor="@color/black"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/confirm_password"
-                android:inputType="textPassword"
-                android:textSize="@dimen/_12ssp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phone"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/confirm_password"
             android:layout_marginTop="@dimen/_10sdp"
             app:boxStrokeColor="@color/black">
 
@@ -112,37 +91,11 @@
                 android:textSize="@dimen/_12ssp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dateOfBirth"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/phone"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:boxStrokeColor="@color/black">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/date_of_birth"
-                android:inputType="phone"
-                android:textSize="@dimen/_12ssp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <CheckBox
-            android:id="@+id/admin_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dateOfBirth"
-            android:layout_alignParentStart="true"
-            android:text="@string/sign_up_as_admin"
-            android:textSize="@dimen/_12ssp" />
 
         <RadioGroup
             android:id="@+id/radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/admin_check"
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="horizontal">
 
@@ -152,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="0dp"
                 android:text="@string/male"
                 android:textSize="@dimen/_12ssp" />
 
@@ -160,7 +114,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/_5sdp"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="0dp"
                 android:text="@string/female"
                 android:textSize="@dimen/_12ssp" />
         </RadioGroup>
@@ -169,7 +124,6 @@
             android:id="@+id/signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/radio_group"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/sign_in_ripple"
             android:text="@string/sign_up"
@@ -177,5 +131,5 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

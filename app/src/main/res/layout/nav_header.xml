@@ -2,22 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_150sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark"
     android:gravity="bottom"
     android:padding="@dimen/_10sdp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/profile_text"
-        android:layout_width="@dimen/_70sdp"
-        android:layout_height="@dimen/_70sdp"
-        android:textColor="@color/colorPrimaryDark"
-        android:gravity="center"
-        android:textSize="@dimen/_30ssp"
-        android:textStyle="bold"
-        android:background="@drawable/profile_text_background"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_imageView"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"/>
+        <TextView
+            android:id="@+id/profile_text"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold"
+            android:background="@drawable/profile_text_background"/>
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/full_name"

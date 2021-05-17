@@ -48,6 +48,7 @@ public class OtpActivity extends AppCompatActivity {
 
     private void sendToChangePassword() {
         Intent intent = new Intent(OtpActivity.this, ChangePasswordActivity.class);
+        intent.putExtra("user", getIntent().getStringExtra("user"));
         startActivity(intent);
         OtpActivity.this.finish();
     }

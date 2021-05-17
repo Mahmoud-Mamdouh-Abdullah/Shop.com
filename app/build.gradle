@@ -68,7 +68,8 @@ dependencies {
 
     //Authentication
     implementation 'com.google.firebase:firebase-auth'
-
+    implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 

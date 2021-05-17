@@ -3,6 +3,7 @@ package com.mahmoudkhalil.shopcom.ui;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +18,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.models.User;
+import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,10 +43,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     private TextView name_tv, email_tv, profile_tv;
+    private CircleImageView profileCircleImageView;
     private Gson gson;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     User user;
+
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +57,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+
         String fromWhere = getIntent().getStringExtra("from");
         init();
         String login_user = sharedPreferences.getString("login_user", "null");
         if (login_user != null) {
             user = gson.fromJson(login_user, User.class);
-            name_tv.setText(user.getFullName());
+            name_tv.setText(user.getFullName().split(" ")[0]);
             email_tv.setText(user.getEmail());
-            profile_tv.setText(get2FromName(user.getFullName()));
+            if(user.getPhotoUri() != null) {
+                profile_tv.setVisibility(View.GONE);
+                Picasso.get().load(user.getPhotoUri()).centerCrop().fit().into(profileCircleImageView);
+            } else {
+                profile_tv.setText(get2FromName(user.getFullName()));
+                profileCircleImageView.setVisibility(View.GONE);
+            }
         }
         setSupportActionBar(toolbar);
 
@@ -76,8 +100,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             navView.setCheckedItem(R.id.nav_home);
             getSupportActionBar().setTitle("All Categories");
         }
-
-
     }
 
     @Override
@@ -96,6 +118,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onClick(View v) {
                     HomeActivity.this.finish();
+                    mGoogleSignInClient.signOut();
                 }
             });
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +155,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 getSupportActionBar().setTitle("My Orders");
                 break;
             case R.id.nav_logout:
+                mGoogleSignInClient.signOut();
                 editor.putBoolean("remember_user", false);
                 editor.apply();
                 startActivity(new Intent(HomeActivity.this, MainActivity.class));
@@ -150,9 +174,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void init(){
         sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        name_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.full_name);
-        email_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.email);
-        profile_tv = (TextView) navView.getHeaderView(0).findViewById(R.id.profile_text);
+        name_tv = navView.getHeaderView(0).findViewById(R.id.full_name);
+        email_tv = navView.getHeaderView(0).findViewById(R.id.email);
+        profile_tv = navView.getHeaderView(0).findViewById(R.id.profile_text);
+        profileCircleImageView = navView.getHeaderView(0).findViewById(R.id.profile_imageView);
         gson = new Gson();
     }
 }

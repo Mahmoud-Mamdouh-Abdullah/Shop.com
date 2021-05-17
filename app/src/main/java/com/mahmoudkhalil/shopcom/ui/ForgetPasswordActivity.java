@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.models.User;
@@ -100,6 +101,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                                     Intent otpIntent = new Intent(ForgetPasswordActivity.this, OtpActivity.class);
                                     otpIntent.putExtra("code", s);
                                     otpIntent.putExtra("phone", completePhone);
+                                    otpIntent.putExtra("user", new Gson().toJson(user));
                                     startActivity(otpIntent);
                                     finish();
                                     Log.i("ForgetPasswordActivity", "onCodeSent");

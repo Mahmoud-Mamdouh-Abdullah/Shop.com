@@ -46,7 +46,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         gson = new Gson();
         sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        userString = sharedPreferences.getString("login_user", null);
+        userString = getIntent().getStringExtra("user");
         if(userString != null) {
             user = gson.fromJson(userString, User.class);
         }

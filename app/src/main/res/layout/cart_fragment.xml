@@ -1,56 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/empty_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/_16ssp"/>
+        android:layout_centerInParent="true"
+        android:text="@string/the_cart_is_empty"
+        android:textSize="@dimen/_16ssp"
+        android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cart_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_above="@id/relative"
         android:layout_alignParentTop="true"
-        android:layout_above="@id/relative"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
     <RelativeLayout
         android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="@dimen/_10sdp"
-        android:background="@color/blue_50">
+        android:background="@color/blue_50"
+        android:padding="@dimen/_10sdp">
 
         <LinearLayout
             android:id="@+id/linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:gravity="center">
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:text="@string/sub_total"
-                android:layout_marginEnd="@dimen/_10sdp"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/sub_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:text=""
-                android:textSize="@dimen/_15ssp"/>
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp" />
         </LinearLayout>
 
         <Button
@@ -58,22 +60,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/linear_layout"
+            android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/add_cart_ripple"
             android:text="@string/calculate_sub_total"
-            android:textColor="@color/white"
-            android:layout_marginTop="@dimen/_5sdp"/>
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/confirm_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/calculate_total"
-            android:background="@drawable/add_favourite_ripple"
-            android:text="@string/confirm_the_order"
-            android:textColor="@color/hover_color"
             android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/add_favourite_ripple"
             android:enabled="false"
-            />
+            android:text="@string/confirm_the_order"
+            android:textColor="@color/hover_color" />
 
 
     </RelativeLayout>

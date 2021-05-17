@@ -65,9 +65,12 @@ public class OrdersFragment extends Fragment {
             public void onChanged(List<Order> orders) {
                 orderList.clear();
                 for(int i = 0; i < orders.size(); i ++) {
-                    if(orders.get(i).getUserPhone().equals(login_user.getPhone())) {
+                    if(orders.get(i).getUserID().equals(login_user.getID())) {
                         orderList.add(orders.get(i));
                     }
+                }
+                if(orderList.size() == 0) {
+                    empty.setVisibility(View.VISIBLE);
                 }
                 orderAdapter.setOrderList(orderList);
                 progressDialog.dismiss();

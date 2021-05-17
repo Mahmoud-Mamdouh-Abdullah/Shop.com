@@ -27,7 +27,7 @@ public class WishCartRepository {
     public void add_to_wish(User user, String productCode) {
         if(!user.wishList.contains(productCode)){
             user.wishList.add(productCode);
-            mReference.child(user.getPhone()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            mReference.child(user.getID()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     if(mOnAddWish != null) {
@@ -49,7 +49,7 @@ public class WishCartRepository {
     public void delete_from_wish(User user, String productCode) {
         if(user.wishList.contains(productCode)){
             user.wishList.remove(productCode);
-            mReference.child(user.getPhone()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            mReference.child(user.getID()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     if(mOnAddWish != null) {
@@ -70,7 +70,7 @@ public class WishCartRepository {
     public void add_to_cart(User user, String productCode) {
         if(!user.cartList.contains(productCode)){
             user.cartList.add(productCode);
-            mReference.child(user.getPhone()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            mReference.child(user.getID()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     if(onCartListener != null) {
@@ -91,7 +91,7 @@ public class WishCartRepository {
     public void delete_from_cart(User user, String productCode) {
         if(user.cartList.contains(productCode)){
             user.cartList.remove(productCode);
-            mReference.child(user.getPhone()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            mReference.child(user.getID()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     if(onCartListener != null) {

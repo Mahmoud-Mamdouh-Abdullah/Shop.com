@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mahmoudkhalil.shopcom.R;
 import com.mahmoudkhalil.shopcom.models.User;
@@ -45,14 +46,8 @@ public class SignUpActivity extends AppCompatActivity {
     TextInputLayout email;
     @BindView(R.id.password)
     TextInputLayout password;
-    @BindView(R.id.confirm_password)
-    TextInputLayout confirmPassword;
     @BindView(R.id.phone)
     TextInputLayout phone;
-    @BindView(R.id.dateOfBirth)
-    TextInputLayout dateOfBirth;
-    @BindView(R.id.admin_check)
-    CheckBox adminCheck;
     @BindView(R.id.male_radio)
     RadioButton maleRadio;
     @BindView(R.id.female_radio)
@@ -61,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     @BindView(R.id.signUp)
     Button signUp;
-    private String fullNameStr = "", emailStr = "", passwordStr = "", rePass = "", phoneStr = "", gender = "", dateOfBirthStr = "";
+    private String fullNameStr = "", emailStr = "", passwordStr = "", phoneStr = "", gender = "";
     private UserViewModel userViewModel;
     private DatabaseReference mReference;
 
@@ -76,23 +71,6 @@ public class SignUpActivity extends AppCompatActivity {
         mReference = FirebaseDatabase.getInstance().getReference("user");
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
-        dateOfBirth.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    showCalendar();
-                }
-            }
-        });
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month++;
-                dateOfBirthStr = dayOfMonth + "/" + month + "/" + year;
-                dateOfBirth.getEditText().setText(dateOfBirthStr);
-            }
-        };
     }
 
     private void showCalendar() {
@@ -110,12 +88,14 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void registration(final User user) {
         final String phoneNum = user.getPhone();
-        mReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = mReference.orderByChild("phone").equalTo(phoneNum);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(phoneNum).exists()) {
+                if (snapshot.exists()) {
                     phone.setError("this phone number already exists");
                 } else {
+                    user.setID(mReference.push().getKey());
                     userViewModel.register(user);
                     userViewModel.setOnRegisterListener(new UserRepository.onRegisterListener() {
                         @Override
@@ -149,12 +129,8 @@ public class SignUpActivity extends AppCompatActivity {
             email.getEditText().setError("Enter your Email!");
         if (passwordStr.isEmpty())
             password.setError("Enter your password!");
-        if (rePass.isEmpty())
-            confirmPassword.setError("Retype your password!");
         if (phoneStr.isEmpty())
             phone.getEditText().setError("Enter your phone number!");
-        if (dateOfBirthStr.isEmpty())
-            dateOfBirth.getEditText().setError("Enter your date of birth");
 
     }
 
@@ -162,9 +138,7 @@ public class SignUpActivity extends AppCompatActivity {
         fullNameStr = fullName.getEditText().getText().toString().trim();
         emailStr = email.getEditText().getText().toString().trim();
         passwordStr = password.getEditText().getText().toString().trim();
-        rePass = confirmPassword.getEditText().getText().toString().trim();
         phoneStr = phone.getEditText().getText().toString().trim();
-        dateOfBirthStr = dateOfBirth.getEditText().getText().toString();
         if (maleRadio.isChecked()) {
             gender = "male";
         } else if (femaleRadio.isChecked()) {
@@ -186,25 +160,18 @@ public class SignUpActivity extends AppCompatActivity {
     public void onViewClicked() {
         init();
         errorChecker();
-        if (gender.isEmpty() || fullNameStr.isEmpty() || emailStr.isEmpty() || passwordStr.isEmpty() || rePass.isEmpty() || phoneStr.isEmpty()) {
+        if (gender.isEmpty() || fullNameStr.isEmpty() || emailStr.isEmpty() || passwordStr.isEmpty() || phoneStr.isEmpty()) {
             Toast.makeText(SignUpActivity.this, "complete your data", Toast.LENGTH_SHORT).show();
-        } else if (!rePass.equals(passwordStr)) {
-            confirmPassword.setError("password doesn't match!");
         } else if (!validateEmail(emailStr)) {
             email.setError("Invalid email");
         } else {
-            String admin = "false";
-            if (adminCheck.isChecked())
-                admin = "true";
-            final User user = new User(admin,
-                    fullNameStr,
-                    emailStr,
-                    passwordStr,
-                    phoneStr,
-                    gender,
-                    dateOfBirthStr);
+            final User user = new User();
+            user.setFullName(fullNameStr);
+            user.setEmail(emailStr);
+            user.setPassword(passwordStr);
+            user.setPhone(phoneStr);
+            user.setGender(gender);
             password.setError(null);
-            confirmPassword.setError(null);
             email.setError(null);
             registration(user);
         }

@@ -29,9 +29,9 @@ public class OrderRepository {
         this.onGetOrdersDataListener = onGetOrdersDataListener;
     }
 
-    public void addOrder(String orderTotal, String userPhone, String orderDate, String userAddress, List<Product> productsList) {
+    public void addOrder(String orderTotal, String userID, String orderDate, String userAddress, List<Product> productsList) {
         String orderID = mRef.push().getKey();
-        final Order order = new Order(orderID, orderTotal, userPhone, orderDate, userAddress, productsList);
+        final Order order = new Order(orderID, orderTotal, userID, orderDate, userAddress, productsList);
         mRef.child(orderID).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

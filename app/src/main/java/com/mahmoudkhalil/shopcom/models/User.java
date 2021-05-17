@@ -1,16 +1,18 @@
 package com.mahmoudkhalil.shopcom.models;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String admin;
+    private String ID;
     private String fullName;
     private String email;
     private String password;
     private String phone;
     private String gender;
-    private String dateOfBirth;
+    private String photoUri;
     public List<String> cartList = new ArrayList<>();
     public List<String> wishList = new ArrayList<>();
 
@@ -19,14 +21,21 @@ public class User {
 
 
 
-    public User(String admin, String fullName, String email, String password, String phone, String gender, String dateOfBirth) {
-        this.admin = admin;
+    public User(String ID, String fullName, String email, String password, String phone, String gender) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.phone = phone;
         this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
+        this.ID = ID;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public String getFullName() {
@@ -61,43 +70,15 @@ public class User {
         this.phone = phone;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
     public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public String getDateOfBirth() {
-        return dateOfBirth;
+    public String getPhotoUri() {
+        return photoUri;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(String admin) {
-        this.admin = admin;
-    }
-
-    public List<String> getCartList() {
-        return cartList;
-    }
-
-    public void setCartList(List<String> cartList) {
-        this.cartList = cartList;
-    }
-
-    public List<String> getWishList() {
-        return wishList;
-    }
-
-    public void setWishList(List<String> wishList) {
-        this.wishList = wishList;
+    public void setPhotoUri(String photoUri) {
+        this.photoUri = photoUri;
     }
 }

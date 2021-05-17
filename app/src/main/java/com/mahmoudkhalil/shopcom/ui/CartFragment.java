@@ -54,7 +54,7 @@ import java.util.Objects;
 public class CartFragment extends Fragment {
 
     private Button calc_total, confirm_order;
-    private TextView total;
+    private TextView total, emptyTextView;
     private RelativeLayout relativeLayout;
     private RecyclerView cart_recycler;
     private ProductViewModel productViewModel;
@@ -81,6 +81,7 @@ public class CartFragment extends Fragment {
         calc_total = view.findViewById(R.id.calculate_total);
         confirm_order = view.findViewById(R.id.confirm_order);
         total = view.findViewById(R.id.sub_total);
+        emptyTextView = view.findViewById(R.id.empty_text);
         relativeLayout = view.findViewById(R.id.relative);
         sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("login", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -106,6 +107,7 @@ public class CartFragment extends Fragment {
                     }
                 }
                 if (cartList.size() == 0) {
+                    emptyTextView.setVisibility(View.VISIBLE);
                     relativeLayout.setVisibility(View.INVISIBLE);
                 }
                 cartAdapter.setCartList((ArrayList<Product>) cartList);
@@ -168,12 +170,10 @@ public class CartFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<Location> task) {
                             Location location = task.getResult();
-                            if(location != null) {
-                                progressDialog.show();
-                                progressDialog.setMessage("We take your Current Location");
-                                String address = getAddress(location.getLatitude(), location.getLongitude());
-                                onConfirmOrderProcess(address);
-                            }
+                            progressDialog.show();
+                            progressDialog.setMessage("We take your Current Location");
+                            String address = getAddress(location.getLatitude(), location.getLongitude());
+                            onConfirmOrderProcess(address);
                         }
                     });
 
@@ -217,7 +217,7 @@ public class CartFragment extends Fragment {
             orderList.get(i).setStock(String.valueOf(cartAdapter.qtyList.get(i)));
         }
         orderViewModel.addOrder(String.valueOf(sub_total),
-                login_user.getPhone(),
+                login_user.getID(),
                 getDate(),
                 address, orderList);
         orderViewModel.setOnOrderListener(new OrderRepository.onOrderListener() {
