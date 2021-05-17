@@ -7,7 +7,7 @@
 <h3>-Login and signup</h3> </br>
 <img src="https://user-images.githubusercontent.com/49378579/112894268-f5bd6600-90db-11eb-9067-7855a74bdbfd.jpg" width="200" height="400"/>
 <img src="https://user-images.githubusercontent.com/49378579/112894276-f81fc000-90db-11eb-8541-b4e6b16a6570.jpg" width="200" height="400"/>
-<img src="https://user-images.githubusercontent.com/49378579/112894280-f950ed00-90db-11eb-9547-7520f3e14ec5.jpg" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/49378579/118434509-7e6c8180-b6dd-11eb-9d44-eda96267206e.jpg" width="200" height="400"/>
 </span>
 
 <span>
