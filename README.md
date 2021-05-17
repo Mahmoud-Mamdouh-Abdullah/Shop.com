@@ -1,5 +1,5 @@
 # Shop.com
--is an online shopping store, the user can show the products, search for product by writing the name in the search bar or by voice, add to cart, add to wishlist, and make an order and receive an email with order details. (using java, firebase, mvvm architecture pattern). </br>
+-is an online shopping store, the user can show the products, search for product by writing the name in the search bar or by voice, add to cart, add to wishlist, and make an order and receive an email with order details. (using java, firebase, mvvm architecture pattern, google sign in, phone authentication). </br>
 
 
 
